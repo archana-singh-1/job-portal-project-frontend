@@ -6,9 +6,9 @@ import './App.css'
 function App() {
 
   return (
-    <>
-      <h1>WellCome To The React App</h1>
-    </>
+    <div className="bg-blue-500 text-white p-4">
+      Hello, Tailwind CSS!
+    </div>
   )
 }
 
