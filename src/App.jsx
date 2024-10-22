@@ -4,6 +4,8 @@ import viteLogo from '/vite.svg'
 import Signup from "./components/Signup.jsx"
 import './App.css'
 import Navbar from './components/Navbar.jsx'
+import LandingPage from './components/LandingPage.jsx'
+import Footer from './Footer.jsx'
 
 function App() {
 
@@ -13,7 +15,8 @@ function App() {
     // </div>
     <>
        <Navbar/>
-       <Signup/>
+       <LandingPage/>
+       <Footer/>
     </>
    
   )
