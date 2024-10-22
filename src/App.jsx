@@ -3,6 +3,7 @@ import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import Signup from "./components/Signup.jsx"
 import './App.css'
+import Navbar from './components/Navbar.jsx'
 
 function App() {
 
@@ -10,7 +11,11 @@ function App() {
     // <div className="bg-blue-500 text-white p-4">
     //   Hello, Tailwind CSS!
     // </div>
-    <Signup/>
+    <>
+       <Navbar/>
+       <Signup/>
+    </>
+   
   )
 }
 
