@@ -17,7 +17,7 @@ const Navbar = () => {
                     <input
                         type="text"
                         placeholder="Search..."
-                        className="border border-gray-300 rounded-l-lg py-2 px-4 focus:outline-none focus:border-[#39b75d] max-w-md"
+                        className="border border-gray-300 rounded-l-lg py-2 px-4 focus:outline-none max-w-md"
                     />
                     <button className="bg-[#483D8B] text-white px-4 py-2 rounded-r-lg transition duration-300">
                         Search
