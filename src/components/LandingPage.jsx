@@ -17,9 +17,66 @@ const LandingPage = () => {
         setExperience('');
     };
 
+    const jobs = [
+        {
+            title: 'Python Developer',
+            company: 'Dream Marvel Startups Private Limited',
+            location: 'Work from home',
+            experience: '0 years',
+            salary: '$ 20,000 - 40,000',
+            posted: 'Just now',
+            type: 'Fresher Job',
+        },
+        {
+            title: 'Frontend Developer',
+            company: 'Tech Innovators Ltd.',
+            location: 'Delhi',
+            experience: '1-2 years',
+            salary: '$ 30,000 - 50,000',
+            posted: '1 day ago',
+            type: 'Full-time',
+        },
+        {
+            title: 'Backend Developer',
+            company: 'Startup Hub Solutions',
+            location: 'Mumbai',
+            experience: '1 year',
+            salary: '$ 25,000 - 45,000',
+            posted: '2 days ago',
+            type: 'Full-time',
+        },
+        {
+            title: 'React Developer',
+            company: 'Bright Tech',
+            location: 'Work from home',
+            experience: '0-1 year',
+            salary: '$ 22,000 - 42,000',
+            posted: 'Just now',
+            type: 'Fresher Job',
+        },
+        {
+            title: 'UI/UX Designer',
+            company: 'Creative Labs',
+            location: 'Bangalore',
+            experience: '2-3 years',
+            salary: '$ 35,000 - 55,000',
+            posted: '3 days ago',
+            type: 'Full-time',
+        },
+        {
+            title: 'DevOps Engineer',
+            company: 'OpsPro Solutions',
+            location: 'Hyderabad',
+            experience: '3-5 years',
+            salary: '$ 40,000 - 60,000',
+            posted: '4 days ago',
+            type: 'Full-time',
+        },
+    ];
+
     return (
         <div className="container mx-auto border border-gray-600 rounded-lg p-6 mb-4 h-[700px] flex">
-        
+           
             <div className="w-1/4 border-r border-gray-300 pr-4">
                 <h2 className="text-xl font-semibold mb-4">Filters</h2>
                 
@@ -71,8 +128,8 @@ const LandingPage = () => {
                     <label className="block font-medium mb-1">Full-time</label>
                     <input
                         type="checkbox"
-                        checked={workFromHome}
-                        onChange={(e) => setWorkFromHome(e.target.checked)}
+                        checked={partTime}
+                        onChange={(e) => setPartTime(e.target.checked)}
                         className="mr-2"
                     />
                     <span>Full-time</span>
@@ -118,10 +175,22 @@ const LandingPage = () => {
                 </div>
             </div>
 
-        
+           
             <div className="w-3/4 pl-4">
-            
                 <h2 className="text-xl font-semibold mb-4">Job Listings</h2>
+                <div className="grid grid-cols-3 gap-4">
+                    {jobs.map((job, index) => (
+                        <div key={index} className="border border-gray-300 p-4 rounded-lg shadow-md p-3">
+                            <h3 className="text-lg font-semibold">{job.title}</h3>
+                            <p className="text-gray-600 p-2">{job.company}</p>
+                            <p className="text-gray-600 p-2">{job.location}</p>
+                            <p className="text-gray-600 p-2">{job.experience}</p>
+                            <p className="text-gray-600 p-2">{job.salary}</p>
+                            <p className="text-gray-600 p-2">{job.posted}</p>
+                            <p className="text-green-600 font-semibold">{job.type}</p>
+                        </div>
+                    ))}
+                </div>
             </div>
         </div>
     );
