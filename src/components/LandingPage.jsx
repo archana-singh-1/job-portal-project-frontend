@@ -1,8 +1,6 @@
 function LandingPage(){
     return(
-        <div>
-            <h2>LandingPage</h2>
-        </div>
+        <div className="container mx-auto border border-gray-600 rounded-lg p-6 mb-4 h-[700px] "></div>
     )
 
 }
