@@ -6,10 +6,10 @@ const Login = () => {
     const [password, setPassword] = useState('');
     const [message, setMessage] = useState(null);
     const [error, setError] = useState(null);
+    const [userData, setUserData] = useState(null); 
 
     const handleLogin = async (e) => {
         e.preventDefault();
-        console.log({ email, password });
 
         try {
             const response = await axios.post('http://localhost:4000/user/login', {
@@ -20,13 +20,15 @@ const Login = () => {
             setError(null);
             alert('Login successful!');
 
-            const token = response.data.token; 
-            if (token) {
+            const { token, user } = response.data;
+            if (token && user) {
+                setUserData(user); 
+                setMessage("Login successful!");
                 localStorage.setItem('token', token);
+                localStorage.setItem('user', JSON.stringify(user)); 
             }
 
         } catch (error) {
-            console.log(error);
             setError(error.response?.data?.message || 'Login failed. Please try again.');
             setMessage(null);
             alert('Login failed. Please try again.');
@@ -71,6 +73,15 @@ const Login = () => {
 
                 {message && <p className="text-green-500 mt-4">{message}</p>}
                 {error && <p className="text-red-500 mt-4">{error}</p>}
+
+                {userData && (
+                    <div className="mt-6 bg-gray-100 p-4 rounded-md">
+                        <h2 className="font-bold">User Information</h2>
+                        <p><strong>Name:</strong> {userData.name}</p>
+                        <p><strong>Email:</strong> {userData.email}</p>
+                        <p><strong>Role:</strong> {userData.role}</p>
+                    </div>
+                )}
             </form>
         </div>
     );
