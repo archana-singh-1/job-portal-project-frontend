@@ -86,8 +86,8 @@ const Signup = () => {
                         required
                     >
                         <option value="">Select Role</option>
-                        <option value="Job Seeker">Job Seeker</option>
-                        <option value="Employer">Employer</option>
+                        <option value="Job Seeker">job_seeker</option>
+                        <option value="Employer">employer</option>
                     </select>
                 </div>
 
