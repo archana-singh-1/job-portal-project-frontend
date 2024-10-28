@@ -1,5 +1,7 @@
 import axios from 'axios';
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+
 
 const Login = () => {
     const [email, setEmail] = useState('');
@@ -7,6 +9,8 @@ const Login = () => {
     const [message, setMessage] = useState(null);
     const [error, setError] = useState(null);
     const [userData, setUserData] = useState(null); 
+
+    const navigate = useNavigate();
 
     const handleLogin = async (e) => {
         e.preventDefault();
@@ -26,6 +30,7 @@ const Login = () => {
                 setMessage("Login successful!");
                 localStorage.setItem('token', token);
                 localStorage.setItem('user', JSON.stringify(user)); 
+                navigate('/');
             }
 
         } catch (error) {
@@ -88,3 +93,6 @@ const Login = () => {
 };
 
 export default Login;
+
+
+
