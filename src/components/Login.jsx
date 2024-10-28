@@ -3,42 +3,38 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 
-const Login = () => {
+const Login = ({ setIsLoggedIn }) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [message, setMessage] = useState(null);
     const [error, setError] = useState(null);
-    const [userData, setUserData] = useState(null); 
+    // const [userData, setUserData] = useState(null); 
 
     const navigate = useNavigate();
 
     const handleLogin = async (e) => {
-        e.preventDefault();
-
-        try {
-            const response = await axios.post('http://localhost:4000/user/login', {
-                email,
-                password
-            });
-            setMessage(response.data.message);
-            setError(null);
-            alert('Login successful!');
-
-            const { token, user } = response.data;
-            if (token && user) {
-                setUserData(user); 
-                setMessage("Login successful!");
-                localStorage.setItem('token', token);
-                localStorage.setItem('user', JSON.stringify(user)); 
-                navigate('/');
-            }
-
-        } catch (error) {
-            setError(error.response?.data?.message || 'Login failed. Please try again.');
-            setMessage(null);
-            alert('Login failed. Please try again.');
-        }
-    };
+                e.preventDefault();
+        
+                try {
+                    const response = await axios.post('http://localhost:4000/user/login', {
+                        email,
+                        password
+                    });
+        
+                    const { token, user } = response.data;
+                    if (token && user) {
+                        localStorage.setItem('token', token);
+                        localStorage.setItem('user', JSON.stringify(user));
+                        setIsLoggedIn(true); // Update the login state
+                        alert('Login successful!');
+                        navigate('/'); // Navigate to the home page or landing page
+                    }
+                } catch (error) {
+                    setError(error.response?.data?.message || 'Login failed. Please try again.');
+                    setMessage(null);
+                    alert('Login failed. Please try again.');
+                }
+            };
 
     return (
         <div className="container mx-auto mt-[80px]">
@@ -79,20 +75,13 @@ const Login = () => {
                 {message && <p className="text-green-500 mt-4">{message}</p>}
                 {error && <p className="text-red-500 mt-4">{error}</p>}
 
-                {userData && (
-                    <div className="mt-6 bg-gray-100 p-4 rounded-md">
-                        <h2 className="font-bold">User Information</h2>
-                        <p><strong>Name:</strong> {userData.name}</p>
-                        <p><strong>Email:</strong> {userData.email}</p>
-                        <p><strong>Role:</strong> {userData.role}</p>
-                    </div>
-                )}
             </form>
         </div>
     );
 };
 
 export default Login;
+
 
 
 

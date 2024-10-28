@@ -1,16 +1,16 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom"; 
+import { Link, useNavigate } from "react-router-dom";
 
-const Navbar = () => {
+const Navbar = ({ isLoggedIn, setIsLoggedIn }) => {
     const [isDropdownOpen, setDropdownOpen] = useState(false);
-
-    const toggleMenu = () => {
-        const menu = document.getElementById("mobileMenu");
-        menu.classList.toggle("hidden");
-    };
+    const navigate = useNavigate();
 
     const toggleDropdown = () => {
         setDropdownOpen(!isDropdownOpen);
+    };
+
+    const handleLogout = () => {
+        navigate('/logout'); // Navigate to the logout component
     };
 
     return (
@@ -41,67 +41,32 @@ const Navbar = () => {
                                 <Link to="/jobs/delhi" className="block px-4 py-2 hover:bg-gray-200">Jobs in Delhi</Link>
                                 <Link to="/jobs/mumbai" className="block px-4 py-2 hover:bg-gray-200">Jobs in Mumbai</Link>
                                 <Link to="/jobs/bangalore" className="block px-4 py-2 hover:bg-gray-200">Jobs in Bangalore</Link>
-                                <Link to="/jobs/chennai" className="block px-4 py-2 hover:bg-gray-200">Jobs in Chennai</Link>
-                                <Link to="/jobs/hyderabad" className="block px-4 py-2 hover:bg-gray-200">Jobs in Hyderabad</Link>
+                                <Link to="/jobs/work-from-home" className="block px-4 py-2 hover:bg-gray-200">Jobs in Chennai</Link>
                             </div>
                         )}
                     </div>
 
-                    <Link to="/login">
-                        <button className="border border-[#FF885B] text-black px-4 py-2 rounded hover:bg-[#FF885B] hover:text-white transition duration-300">Log In</button>
-                    </Link>
-                    <Link to="/signup">
-                        <button className="bg-[#FF885B] text-black px-4 py-2 rounded hover:bg-[#FF885B] hover:text-white transition duration-300">Sign Up</button>
-                    </Link>
+                    {isLoggedIn ? (
+                        <button
+                            onClick={handleLogout} // Navigate to logout component
+                            className="border border-[#FF885B] text-black px-4 py-2 rounded hover:bg-[#FF885B] hover:text-white transition duration-300"
+                        >
+                            Logout
+                        </button>
+                    ) : (
+                        <>
+                            <Link to="/login">
+                                <button className="border border-[#FF885B] text-black px-4 py-2 rounded hover:bg-[#FF885B] hover:text-white transition duration-300">Log In</button>
+                            </Link>
+                            <Link to="/signup">
+                                <button className="bg-[#FF885B] text-black px-4 py-2 rounded hover:bg-[#FF885B] hover:text-white transition duration-300">Sign Up</button>
+                            </Link>
+                        </>
+                    )}
                 </div>
-
-                <div className="md:hidden">
-                    <button className="text-black" onClick={toggleMenu}>
-                        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16m-7 6h7"></path>
-                        </svg>
-                    </button>
-                </div>
-            </div>
-
-            <div id="mobileMenu" className="md:hidden hidden">
-                <ul className="block text-gray-600">
-                    <li>
-                        <Link to="/login" className="block px-4 py-2 hover:text-[#39b75d]">Log In</Link>
-                    </li>
-                    <li>
-                        <Link to="/signup" className="block px-4 py-2 hover:text-[#39b75d]">Sign Up</Link>
-                    </li>
-                    <li>
-                        <button onClick={toggleDropdown} className="block px-4 py-2 hover:text-[#39b75d]">Jobs</button>
-                        {isDropdownOpen && (
-                            <ul className="block px-4 py-2">
-                                <li><Link to="/jobs/work-from-home" className="block px-4 py-2 hover:bg-gray-200">Work From Home</Link></li>
-                                <li><Link to="/jobs/delhi" className="block px-4 py-2 hover:bg-gray-200">Jobs in Delhi</Link></li>
-                                <li><Link to="/jobs/mumbai" className="block px-4 py-2 hover:bg-gray-200">Jobs in Mumbai</Link></li>
-                                <li><Link to="/jobs/bangalore" className="block px-4 py-2 hover:bg-gray-200">Jobs in Bangalore</Link></li>
-                                <li><Link to="/jobs/chennai" className="block px-4 py-2 hover:bg-gray-200">Jobs in Chennai</Link></li>
-                                <li><Link to="/jobs/hyderabad" className="block px-4 py-2 hover:bg-gray-200">Jobs in Hyderabad</Link></li>
-                            </ul>
-                        )}
-                    </li>
-                    <li>
-                        <Link to="/addcart" className="block px-4 py-2 hover:text-[#39b75d]">Cart</Link>
-                    </li>
-                </ul>
             </div>
         </div>
     );
 };
 
 export default Navbar;
-
-
-
-
-
-
-
-
-
-
