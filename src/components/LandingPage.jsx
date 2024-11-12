@@ -8,15 +8,7 @@ const LandingPage = () => {
     const [partTime, setPartTime] = useState(false);
     const [salary, setSalary] = useState(0);
     const [experience, setExperience] = useState('');
-
-    const clearFilters = () => {
-        setProfile('');
-        setLocation('');
-        setWorkFromHome(false);
-        setPartTime(false);
-        setSalary(0);
-        setExperience('');
-    };
+    const [filteredJobs, setFilteredJobs] = useState([]);
 
     const jobs = [
         {
@@ -25,7 +17,7 @@ const LandingPage = () => {
             company: 'Dream Marvel Startups Private Limited',
             location: 'Work from home',
             experience: '0 years',
-            salary: '$ 20,000 - 40,000',
+            salary: '20000-40000',
             posted: 'Just now',
             type: 'Fresher Job',
         },
@@ -35,7 +27,7 @@ const LandingPage = () => {
             company: 'Tech Innovators Ltd.',
             location: 'Delhi',
             experience: '1-2 years',
-            salary: '$ 30,000 - 50,000',
+            salary: '30000-50000',
             posted: '1 day ago',
             type: 'Full-time',
         },
@@ -45,38 +37,64 @@ const LandingPage = () => {
             company: 'Startup Hub Solutions',
             location: 'Mumbai',
             experience: '1 year',
-            salary: '$ 25,000 - 45,000',
+            salary: '25000-45000',
             posted: '2 days ago',
             type: 'Full-time',
         },
-        {   id: 4,
+        {
+            id: 4,
             title: 'React Developer',
             company: 'Bright Tech',
             location: 'Work from home',
             experience: '0-1 year',
-            salary: '$ 22,000 - 42,000',
+            salary: '22000-42000',
             posted: 'Just now',
             type: 'Fresher Job',
         },
-        {   id: 5,
+        {
+            id: 5,
             title: 'UI/UX Designer',
             company: 'Creative Labs',
             location: 'Bangalore',
             experience: '2-3 years',
-            salary: '$ 35,000 - 55,000',
+            salary: '35000-55000',
             posted: '3 days ago',
             type: 'Full-time',
         },
-        {   id: 6,
+        {
+            id: 6,
             title: 'DevOps Engineer',
             company: 'OpsPro Solutions',
             location: 'Hyderabad',
             experience: '3-5 years',
-            salary: '$ 40,000 - 60,000',
+            salary: '40000-60000',
             posted: '4 days ago',
             type: 'Full-time',
         },
     ];
+
+    const clearFilters = () => {
+        setProfile('');
+        setLocation('');
+        setWorkFromHome(false);
+        setPartTime(false);
+        setSalary(0);
+        setExperience('');
+        setFilteredJobs(jobs); 
+    };
+
+    const handleSearch = () => {
+        const filtered = jobs.filter((job) => {
+            const meetsProfile = profile ? job.title.toLowerCase().includes(profile.toLowerCase()) : true;
+            const meetsLocation = location ? job.location.toLowerCase().includes(location.toLowerCase()) : true;
+            const meetsWorkFromHome = workFromHome ? job.location.toLowerCase() === 'work from home' : true;
+            const meetsPartTime = partTime ? job.type.toLowerCase() === 'part-time' : true;
+            const meetsSalary = salary ? parseInt(job.salary.split('-')[0]) <= salary * 10000 : true;
+            const meetsExperience = experience ? job.experience.toLowerCase().includes(experience.toLowerCase()) : true;
+            return meetsProfile && meetsLocation && meetsWorkFromHome && meetsPartTime && meetsSalary && meetsExperience;
+        });
+        setFilteredJobs(filtered);
+    };
 
     return (
         <div className="container mx-auto border border-gray-600 rounded-lg p-6 mb-4 h-[700px] flex">
@@ -127,17 +145,6 @@ const LandingPage = () => {
                 </div>
 
                 <div className="mb-4">
-                    <label className="block font-medium mb-1">Full-time</label>
-                    <input
-                        type="checkbox"
-                        checked={partTime}
-                        onChange={(e) => setPartTime(e.target.checked)}
-                        className="mr-2"
-                    />
-                    <span>Full-time</span>
-                </div>
-
-                <div className="mb-4">
                     <label className="block font-medium mb-1">Annual salary (in lakhs)</label>
                     <input
                         type="range"
@@ -173,22 +180,22 @@ const LandingPage = () => {
                     <button onClick={clearFilters} className="text-red-500 hover:underline">
                         Clear all
                     </button>
-                    <button className="bg-[#483D8B] text-white px-4 py-2 rounded">Search</button>
+                    <button onClick={handleSearch} className="bg-[#483D8B] text-white px-4 py-2 rounded">Search</button>
                 </div>
             </div>
 
-            <div className="w-4/4 pl-4">
+            <div className="w-3/4 pl-4">
                 <h2 className="text-xl font-semibold mb-4">Job Listings</h2>
                 <div className="grid grid-cols-3 gap-4">
-                    {jobs.map((job) => (
+                    {(filteredJobs.length > 0 ? filteredJobs : jobs).map((job) => (
                         <Link to={`/job/${job.id}`} key={job.id}>
-                            <div className="border border-gray-300 p-4 rounded-lg shadow-md p-3">
+                            <div className="border border-gray-300 p-4 rounded-lg shadow-md">
                                 <h3 className="text-lg font-semibold">{job.title}</h3>
-                                <p className="text-gray-600 p-2">{job.company}</p>
-                                <p className="text-gray-600 p-2">{job.location}</p>
-                                <p className="text-gray-600 p-2">{job.experience}</p>
-                                <p className="text-gray-600 p-2">{job.salary}</p>
-                                <p className="text-gray-600 p-2">{job.posted}</p>
+                                <p className="text-gray-600">{job.company}</p>
+                                <p className="text-gray-600">{job.location}</p>
+                                <p className="text-gray-600">{job.experience}</p>
+                                <p className="text-gray-600">{job.salary}</p>
+                                <p className="text-gray-600">{job.posted}</p>
                                 <p className="text-green-600 font-semibold">{job.type}</p>
                             </div>
                         </Link>
