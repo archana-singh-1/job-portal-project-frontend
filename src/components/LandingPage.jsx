@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 const LandingPage = () => {
     const [profile, setProfile] = useState('');
@@ -19,6 +20,7 @@ const LandingPage = () => {
 
     const jobs = [
         {
+            id: 1,
             title: 'Python Developer',
             company: 'Dream Marvel Startups Private Limited',
             location: 'Work from home',
@@ -28,6 +30,7 @@ const LandingPage = () => {
             type: 'Fresher Job',
         },
         {
+            id: 2,
             title: 'Frontend Developer',
             company: 'Tech Innovators Ltd.',
             location: 'Delhi',
@@ -37,6 +40,7 @@ const LandingPage = () => {
             type: 'Full-time',
         },
         {
+            id: 3,
             title: 'Backend Developer',
             company: 'Startup Hub Solutions',
             location: 'Mumbai',
@@ -45,7 +49,7 @@ const LandingPage = () => {
             posted: '2 days ago',
             type: 'Full-time',
         },
-        {
+        {   id: 4,
             title: 'React Developer',
             company: 'Bright Tech',
             location: 'Work from home',
@@ -54,7 +58,7 @@ const LandingPage = () => {
             posted: 'Just now',
             type: 'Fresher Job',
         },
-        {
+        {   id: 5,
             title: 'UI/UX Designer',
             company: 'Creative Labs',
             location: 'Bangalore',
@@ -63,7 +67,7 @@ const LandingPage = () => {
             posted: '3 days ago',
             type: 'Full-time',
         },
-        {
+        {   id: 6,
             title: 'DevOps Engineer',
             company: 'OpsPro Solutions',
             location: 'Hyderabad',
@@ -76,10 +80,8 @@ const LandingPage = () => {
 
     return (
         <div className="container mx-auto border border-gray-600 rounded-lg p-6 mb-4 h-[700px] flex">
-           
             <div className="w-1/4 border-r border-gray-300 pr-4">
                 <h2 className="text-xl font-semibold mb-4">Filters</h2>
-                
                 <div className="mb-4">
                     <label className="block font-medium mb-1">Profile</label>
                     <input
@@ -175,20 +177,21 @@ const LandingPage = () => {
                 </div>
             </div>
 
-           
             <div className="w-3/4 pl-4">
                 <h2 className="text-xl font-semibold mb-4">Job Listings</h2>
                 <div className="grid grid-cols-3 gap-4">
-                    {jobs.map((job, index) => (
-                        <div key={index} className="border border-gray-300 p-4 rounded-lg shadow-md p-3">
-                            <h3 className="text-lg font-semibold">{job.title}</h3>
-                            <p className="text-gray-600 p-2">{job.company}</p>
-                            <p className="text-gray-600 p-2">{job.location}</p>
-                            <p className="text-gray-600 p-2">{job.experience}</p>
-                            <p className="text-gray-600 p-2">{job.salary}</p>
-                            <p className="text-gray-600 p-2">{job.posted}</p>
-                            <p className="text-green-600 font-semibold">{job.type}</p>
-                        </div>
+                    {jobs.map((job) => (
+                        <Link to={`/job/${job.id}`} key={job.id}>
+                            <div className="border border-gray-300 p-4 rounded-lg shadow-md p-3">
+                                <h3 className="text-lg font-semibold">{job.title}</h3>
+                                <p className="text-gray-600 p-2">{job.company}</p>
+                                <p className="text-gray-600 p-2">{job.location}</p>
+                                <p className="text-gray-600 p-2">{job.experience}</p>
+                                <p className="text-gray-600 p-2">{job.salary}</p>
+                                <p className="text-gray-600 p-2">{job.posted}</p>
+                                <p className="text-green-600 font-semibold">{job.type}</p>
+                            </div>
+                        </Link>
                     ))}
                 </div>
             </div>
