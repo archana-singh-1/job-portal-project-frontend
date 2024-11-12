@@ -177,7 +177,7 @@ const LandingPage = () => {
                 </div>
             </div>
 
-            <div className="w-3/4 pl-4">
+            <div className="w-4/4 pl-4">
                 <h2 className="text-xl font-semibold mb-4">Job Listings</h2>
                 <div className="grid grid-cols-3 gap-4">
                     {jobs.map((job) => (
