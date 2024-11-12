@@ -97,11 +97,11 @@ const JobDetailPage = () => {
     };
 
     return (
-        <div className="container mx-auto p-6">
+        <div className="md:container md:mx-auto flex justify-center mt-10 mb-10">
             {job ? (
-                <div className="border border-gray-300 p-4 rounded-lg shadow-md">
+               <div className="border border-gray-300 p-4 rounded-lg shadow-md w-[700px] text-center">
                     <h1 className="text-2xl font-semibold">{job.title}</h1>
-                    <p>{job.company}</p>
+                    <p 	className="text-align: center;">{job.company}</p>
                     <p>{job.location}</p>
                     <p>{job.experience}</p>
                     <p>{job.salary}</p>
