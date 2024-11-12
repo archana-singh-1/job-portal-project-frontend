@@ -7,6 +7,7 @@ import Navbar from './components/Navbar.jsx';
 import LandingPage from './components/LandingPage.jsx';
 import Footer from './Footer.jsx';
 import Logout from "./components/Logout.jsx"; 
+import JobDetailPage from './components/JobDetailsPage.jsx';
 
 
 function App() {
@@ -20,6 +21,7 @@ function App() {
         <Route path="/signup" element={<Signup />} />
         <Route path="/login" element={<Login  setIsLoggedIn={setIsLoggedIn}/>}/>
         <Route path="/logout" element={<Logout setIsLoggedIn={setIsLoggedIn} />} />
+        <Route path="/job/:jobId" element={<JobDetailPage />} />
       </Routes>
       <Footer />
     </>
