@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 const LandingPage = () => {
@@ -8,70 +8,24 @@ const LandingPage = () => {
     const [partTime, setPartTime] = useState(false);
     const [salary, setSalary] = useState(0);
     const [experience, setExperience] = useState('');
+    const [jobs, setJobs] = useState([]);  // Store jobs from the API
     const [filteredJobs, setFilteredJobs] = useState([]);
 
-    const jobs = [
-        {
-            id: 1,
-            title: 'Python Developer',
-            company: 'Dream Marvel Startups Private Limited',
-            location: 'Work from home',
-            experience: '0 years',
-            salary: '20000-40000',
-            posted: 'Just now',
-            type: 'Fresher Job',
-        },
-        {
-            id: 2,
-            title: 'Frontend Developer',
-            company: 'Tech Innovators Ltd.',
-            location: 'Delhi',
-            experience: '1-2 years',
-            salary: '30000-50000',
-            posted: '1 day ago',
-            type: 'Full-time',
-        },
-        {
-            id: 3,
-            title: 'Backend Developer',
-            company: 'Startup Hub Solutions',
-            location: 'Mumbai',
-            experience: '1 year',
-            salary: '25000-45000',
-            posted: '2 days ago',
-            type: 'Full-time',
-        },
-        {
-            id: 4,
-            title: 'React Developer',
-            company: 'Bright Tech',
-            location: 'Work from home',
-            experience: '0-1 year',
-            salary: '22000-42000',
-            posted: 'Just now',
-            type: 'Fresher Job',
-        },
-        {
-            id: 5,
-            title: 'UI/UX Designer',
-            company: 'Creative Labs',
-            location: 'Bangalore',
-            experience: '2-3 years',
-            salary: '35000-55000',
-            posted: '3 days ago',
-            type: 'Full-time',
-        },
-        {
-            id: 6,
-            title: 'DevOps Engineer',
-            company: 'OpsPro Solutions',
-            location: 'Hyderabad',
-            experience: '3-5 years',
-            salary: '40000-60000',
-            posted: '4 days ago',
-            type: 'Full-time',
-        },
-    ];
+    // Fetch jobs from the API
+    useEffect(() => {
+        const fetchJobs = async () => {
+            try {
+                const response = await fetch('https://job-portal-project-theta.vercel.app/api/employer/jobs');
+                const data = await response.json();
+                setJobs(data);  // Set the jobs with the fetched data
+                setFilteredJobs(data);  // Initially display all fetched jobs
+            } catch (error) {
+                console.error('Error fetching jobs:', error);
+            }
+        };
+
+        fetchJobs();
+    }, []);
 
     const clearFilters = () => {
         setProfile('');
