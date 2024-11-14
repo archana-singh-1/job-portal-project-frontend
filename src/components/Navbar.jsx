@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 
 const Navbar = ({ isLoggedIn, setIsLoggedIn }) => {
     const [isDropdownOpen, setDropdownOpen] = useState(false);
+    const [searchQuery, setSearchQuery] = useState('');
     const navigate = useNavigate();
 
     const toggleDropdown = () => {
@@ -10,7 +11,17 @@ const Navbar = ({ isLoggedIn, setIsLoggedIn }) => {
     };
 
     const handleLogout = () => {
-        navigate('/logout'); // Navigate to the logout component
+        setIsLoggedIn(false);
+        navigate('/logout');
+    };
+
+    // Search function to handle search input and redirect
+    const handleSearch = () => {
+        const query = searchQuery.trim();
+        if (query) {
+            // Redirect to search results page with the query
+            navigate(`/search?query=${encodeURIComponent(query)}`);
+        }
     };
 
     return (
@@ -19,14 +30,18 @@ const Navbar = ({ isLoggedIn, setIsLoggedIn }) => {
                 <div className="flex-1 flex items-center justify-center">
                     <input
                         type="text"
-                        placeholder="Search..."
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                        placeholder="Search job titles"
                         className="border border-gray-300 rounded-l-lg py-2 px-4 focus:outline-none max-w-md"
                     />
-                    <button className="bg-[#483D8B] text-white px-4 py-2 rounded-r-lg transition duration-300">
+                    <button
+                        onClick={handleSearch}
+                        className="bg-[#483D8B] text-white px-4 py-2 rounded-r-lg transition duration-300"
+                    >
                         Search
                     </button>
                 </div>
-
                 <div className="hidden md:flex items-center gap-4 ml-8">
                     <div className="relative">
                         <button
@@ -39,16 +54,12 @@ const Navbar = ({ isLoggedIn, setIsLoggedIn }) => {
                             <div className="absolute bg-white text-black mt-2 py-2 w-48 rounded shadow-lg">
                                 <Link to="/jobs/work-from-home" className="block px-4 py-2 hover:bg-gray-200">Work From Home</Link>
                                 <Link to="/jobs/delhi" className="block px-4 py-2 hover:bg-gray-200">Jobs in Delhi</Link>
-                                <Link to="/jobs/mumbai" className="block px-4 py-2 hover:bg-gray-200">Jobs in Mumbai</Link>
-                                <Link to="/jobs/bangalore" className="block px-4 py-2 hover:bg-gray-200">Jobs in Bangalore</Link>
-                                <Link to="/jobs/work-from-home" className="block px-4 py-2 hover:bg-gray-200">Jobs in Chennai</Link>
                             </div>
                         )}
                     </div>
-
                     {isLoggedIn ? (
                         <button
-                            onClick={handleLogout} // Navigate to logout component
+                            onClick={handleLogout}
                             className="border border-[#FF885B] text-black px-4 py-2 rounded hover:bg-[#FF885B] hover:text-white transition duration-300"
                         >
                             Logout
