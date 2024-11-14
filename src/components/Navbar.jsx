@@ -25,7 +25,7 @@ const Navbar = ({ isLoggedIn, setIsLoggedIn }) => {
     };
 
     return (
-        <div className="bg-white shadow-md">
+        <div className="shadow-md  bg-gray-400">
             <div className="flex items-center justify-between mx-auto max-w-6xl h-20 px-4">
                 <div className="flex-1 flex items-center justify-center">
                     <input
