@@ -11,15 +11,15 @@ const LandingPage = () => {
     const [jobs, setJobs] = useState([]);  
     const [filteredJobs, setFilteredJobs] = useState([]);
 
-    // Fetch jobs from the API
+  
     useEffect(() => {
         const fetchJobs = async () => {
             try {
                 const response = await fetch('https://job-portal-project-theta.vercel.app/api/employer/jobs');
                 const data = await response.json();
-                const limitedData = data.slice(0, 6);  // Limit the data to the first 9 items
-                setJobs(limitedData);  // Set the jobs with the limited data
-                setFilteredJobs(limitedData);  // Initially display only the limited data
+                const limitedData = data.slice(0, 12);  
+                setJobs(limitedData);  
+                setFilteredJobs(limitedData);  
             } catch (error) {
                 console.error('Error fetching jobs:', error);
             }
@@ -143,7 +143,7 @@ const LandingPage = () => {
                 <h2 className="text-xl font-semibold mb-4  pl-8" >Job Listings</h2>
                 <div className="grid grid-cols-3 gap-4 ml-10">
                     {(filteredJobs.length > 0 ? filteredJobs : jobs).map((job) => (
-                        <Link to={`/job/${job.id}`} key={job.id}>
+                     <Link to={`/job/${job.id}`} key={job.id}>
                             <div className="border border-gray-300 p-4 rounded-lg shadow-md w-80 h-96">
                                 <h3 className="text-lg font-semibold">{job.title}</h3>
                                 <p className="text-gray-600">{job.company}</p>

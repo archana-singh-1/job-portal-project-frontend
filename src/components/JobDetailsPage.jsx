@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 
 const JobDetailPage = () => {
@@ -6,69 +6,25 @@ const JobDetailPage = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [resume, setResume] = useState(null);
     const [details, setDetails] = useState({ name: '', email: '', answer: '' });
+    const [job, setJob] = useState(null);
 
-    const jobs = [
-        {
-            id: 1,
-            title: 'Python Developer',
-            company: 'Dream Marvel Startups Private Limited',
-            location: 'Work from home',
-            experience: '0 years',
-            salary: '$ 20,000 - 40,000',
-            posted: 'Just now',
-            type: 'Fresher Job',
-        },
-        {
-            id: 2,
-            title: 'Frontend Developer',
-            company: 'Tech Innovators Ltd.',
-            location: 'Delhi',
-            experience: '1-2 years',
-            salary: '$ 30,000 - 50,000',
-            posted: '1 day ago',
-            type: 'Full-time',
-        },
-        {
-            id: 3,
-            title: 'Backend Developer',
-            company: 'Startup Hub Solutions',
-            location: 'Mumbai',
-            experience: '1 year',
-            salary: '$ 25,000 - 45,000',
-            posted: '2 days ago',
-            type: 'Full-time',
-        },
-        {   id: 4,
-            title: 'React Developer',
-            company: 'Bright Tech',
-            location: 'Work from home',
-            experience: '0-1 year',
-            salary: '$ 22,000 - 42,000',
-            posted: 'Just now',
-            type: 'Fresher Job',
-        },
-        {   id: 5,
-            title: 'UI/UX Designer',
-            company: 'Creative Labs',
-            location: 'Bangalore',
-            experience: '2-3 years',
-            salary: '$ 35,000 - 55,000',
-            posted: '3 days ago',
-            type: 'Full-time',
-        },
-        {   id: 6,
-            title: 'DevOps Engineer',
-            company: 'OpsPro Solutions',
-            location: 'Hyderabad',
-            experience: '3-5 years',
-            salary: '$ 40,000 - 60,000',
-            posted: '4 days ago',
-            type: 'Full-time',
-        },
-
-    ];
-
-    const job = jobs.find((job) => job.id === parseInt(jobId));
+    useEffect(() => {
+        if (jobId) {  
+            const fetchJobDetails = async () => {
+                try {
+                    const response = await fetch(`https://job-portal-project-theta.vercel.app/api/employer/jobs/${jobId}`);
+                    if (!response.ok) throw new Error("Network response was not ok");
+                    const data = await response.json();
+                    console.log("Fetched Job Details:", data);  
+                    setJob(data);
+                } catch (error) {
+                    console.error("Error fetching job details:", error);
+                }
+            };
+    
+            fetchJobDetails();
+        }
+    }, [jobId]);
 
     const handleApplyClick = () => {
         setIsModalOpen(true);
@@ -99,15 +55,10 @@ const JobDetailPage = () => {
     return (
         <div className="md:container md:mx-auto flex justify-center mt-10 mb-10">
             {job ? (
-               <div className="border border-gray-300 p-4 rounded-lg shadow-md w-[700px] text-center">
-                    <h1 className="text-2xl font-semibold">{job.title}</h1>
-                    <p 	className="text-align: center;">{job.company}</p>
-                    <p>{job.location}</p>
-                    <p>{job.experience}</p>
-                    <p>{job.salary}</p>
-                    <p>{job.posted}</p>
-                    <p className="text-green-600 font-semibold">{job.type}</p>
-                    <p className="mt-4">{job.description}</p>
+                <div className="border border-gray-300 p-4 rounded-lg shadow-md w-[700px] text-center">
+                    <h1 className="text-2xl font-semibold">{job.title || "Title not available"}</h1>
+                    <p>{job.employerId?.name || "Employer information not available"}</p>
+                    <p className="mt-4">{job.description || "Description not available"}</p>
                     <button
                         onClick={handleApplyClick}
                         className="mt-4 bg-blue-500 text-white px-4 py-2 rounded"
@@ -116,13 +67,13 @@ const JobDetailPage = () => {
                     </button>
                 </div>
             ) : (
-                <p>Job not found.</p>
+                <p>Loading job details...</p>
             )}
 
             {isModalOpen && (
                 <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
                     <div className="bg-white p-6 rounded-lg shadow-lg w-1/2">
-                        <h2 className="text-xl font-semibold mb-4">Apply for {job.title}</h2>
+                        <h2 className="text-xl font-semibold mb-4">Apply for {job?.title}</h2>
                         <form onSubmit={handleSubmit}>
                             <div className="mb-4">
                                 <label className="block font-medium mb-1">Name</label>

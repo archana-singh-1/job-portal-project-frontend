@@ -9,6 +9,7 @@ import Footer from './Footer.jsx';
 import Logout from "./components/Logout.jsx"; 
 import JobDetailPage from './components/JobDetailsPage.jsx';
 import SearchResultsPage from './components/SearchResultPage.jsx';
+import JobList from './components/JobList.jsx';
 
 function App() {
     const [isLoggedIn, setIsLoggedIn] = useState(false); 
@@ -28,6 +29,7 @@ function App() {
                 <Route path="/login" element={<Login setIsLoggedIn={setIsLoggedIn} />} />
                 <Route path="/search" element={<SearchResultsPage />} />
                 <Route path="/logout" element={<Logout setIsLoggedIn={setIsLoggedIn} />} />
+                <Route path="/" element={<JobList />} />
                 <Route path="/job/:jobId" element={<JobDetailPage />} />
             </Routes>
             <Footer />
