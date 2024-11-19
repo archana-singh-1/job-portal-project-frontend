@@ -143,18 +143,19 @@ const LandingPage = () => {
                 <h2 className="text-xl font-semibold mb-4  pl-8" >Job Listings</h2>
                 <div className="grid grid-cols-3 gap-4 ml-10">
                     {(filteredJobs.length > 0 ? filteredJobs : jobs).map((job) => (
-                     <Link to={`/job/${job.id}`} key={job.id}>
-                            <div className="border border-gray-300 p-4 rounded-lg shadow-md w-80 h-96">
-                                <h3 className="text-lg font-semibold">{job.title}</h3>
-                                <p className="text-gray-600">{job.company}</p>
-                                <p className="text-gray-600">{job.location}</p>
-                                <p className="text-gray-600">{job.experience}</p>
-                                <p className="text-gray-600">{job.salary}</p>
-                                <p className="text-gray-600">{job.posted}</p>
-                                <p className="text-green-600 font-semibold">{job.type}</p>
-                            </div>
-                        </Link>
-                    ))}
+                     <Link to={`/job/${job._id}`} key={job._id}>
+                     <div className="border border-gray-300 p-4 rounded-lg shadow-md w-80 h-96">
+                         <h3 className="text-lg font-semibold">{job.title}</h3>
+                         <p className="text-gray-600">{job.company}</p>
+                         <p className="text-gray-600">{job.location}</p>
+                         <p className="text-gray-600">{job.experience}</p>
+                         <p className="text-gray-600">{job.salary}</p>
+                         <p className="text-gray-600">{job.posted}</p>
+                         <p className="text-gray-600">{job._id}</p>
+                         <p className="text-green-600 font-semibold">{job.type}</p>
+                     </div>
+                 </Link>
+             ))}
                 </div>
             </div>
         </div>
