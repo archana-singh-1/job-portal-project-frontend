@@ -39,18 +39,50 @@ const LandingPage = () => {
     };
 
     const handleSearch = () => {
+        const normalize = (str) => str.toLowerCase().replace(/\s+/g, ' ').trim();
+    
         const filtered = jobs.filter((job) => {
-            const meetsProfile = profile ? job.title.toLowerCase().includes(profile.toLowerCase()) : true;
-            const meetsLocation = location ? job.location.toLowerCase().includes(location.toLowerCase()) : true;
-            const meetsWorkFromHome = workFromHome ? job.location.toLowerCase() === 'work from home' : true;
-            const meetsPartTime = partTime ? job.type.toLowerCase() === 'part-time' : true;
-            const meetsSalary = salary ? parseInt(job.salary.split('-')[0]) <= salary * 10000 : true;
-            const meetsExperience = experience ? job.experience.toLowerCase().includes(experience.toLowerCase()) : true;
-            return meetsProfile && meetsLocation && meetsWorkFromHome && meetsPartTime && meetsSalary && meetsExperience;
+            const normalizedTitle = normalize(job.title);
+            const normalizedQuery = normalize(profile);
+    
+            const meetsProfile = normalizedQuery
+                ? normalizedQuery.split(' ').some((word) => normalizedTitle.includes(word))
+                : true;
+    
+            const meetsLocation = location
+                ? job.location.toLowerCase().includes(location.toLowerCase())
+                : true;
+    
+            const meetsWorkFromHome = workFromHome
+                ? job.location.toLowerCase() === 'work from home'
+                : true;
+    
+            const meetsPartTime = partTime
+                ? job.type?.toLowerCase() === 'part-time'
+                : true;
+    
+            const meetsSalary = salary
+                ? parseInt(job.salary?.split('-')[0]) <= salary * 10000
+                : true;
+    
+            const meetsExperience = experience
+                ? job.experience.toLowerCase().includes(experience.toLowerCase())
+                : true;
+    
+            return (
+                meetsProfile &&
+                meetsLocation &&
+                meetsWorkFromHome &&
+                meetsPartTime &&
+                meetsSalary &&
+                meetsExperience
+            );
         });
+    
         setFilteredJobs(filtered);
     };
-
+    
+    
     return (
         <div className="container mx-auto  rounded-lg p-6 mb-4  flex mt-20 bg-white">
             <div className="w-1/4 border-r border-gray-300 pr-4">
@@ -151,7 +183,6 @@ const LandingPage = () => {
                          <p className="text-gray-600">{job.experience}</p>
                          <p className="text-gray-600">{job.salary}</p>
                          <p className="text-gray-600">{job.posted}</p>
-                         <p className="text-gray-600">{job._id}</p>
                          <p className="text-green-600 font-semibold">{job.type}</p>
                      </div>
                  </Link>
