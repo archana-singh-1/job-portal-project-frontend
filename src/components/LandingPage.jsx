@@ -8,22 +8,23 @@ const LandingPage = () => {
     const [partTime, setPartTime] = useState(false);
     const [salary, setSalary] = useState(0);
     const [experience, setExperience] = useState('');
-    const [jobs, setJobs] = useState([]);  // Store jobs from the API
+    const [jobs, setJobs] = useState([]);  
     const [filteredJobs, setFilteredJobs] = useState([]);
 
-    // Fetch jobs from the API
+  
     useEffect(() => {
         const fetchJobs = async () => {
             try {
                 const response = await fetch('https://job-portal-project-theta.vercel.app/api/employer/jobs');
                 const data = await response.json();
-                setJobs(data);  // Set the jobs with the fetched data
-                setFilteredJobs(data);  // Initially display all fetched jobs
+                const limitedData = data.slice(0, 12);  
+                setJobs(limitedData);  
+                setFilteredJobs(limitedData);  
             } catch (error) {
                 console.error('Error fetching jobs:', error);
             }
         };
-
+    
         fetchJobs();
     }, []);
 
@@ -38,30 +39,62 @@ const LandingPage = () => {
     };
 
     const handleSearch = () => {
+        const normalize = (str) => str.toLowerCase().replace(/\s+/g, ' ').trim();
+    
         const filtered = jobs.filter((job) => {
-            const meetsProfile = profile ? job.title.toLowerCase().includes(profile.toLowerCase()) : true;
-            const meetsLocation = location ? job.location.toLowerCase().includes(location.toLowerCase()) : true;
-            const meetsWorkFromHome = workFromHome ? job.location.toLowerCase() === 'work from home' : true;
-            const meetsPartTime = partTime ? job.type.toLowerCase() === 'part-time' : true;
-            const meetsSalary = salary ? parseInt(job.salary.split('-')[0]) <= salary * 10000 : true;
-            const meetsExperience = experience ? job.experience.toLowerCase().includes(experience.toLowerCase()) : true;
-            return meetsProfile && meetsLocation && meetsWorkFromHome && meetsPartTime && meetsSalary && meetsExperience;
+            const normalizedTitle = normalize(job.title);
+            const normalizedQuery = normalize(profile);
+    
+            const meetsProfile = normalizedQuery
+                ? normalizedQuery.split(' ').some((word) => normalizedTitle.includes(word))
+                : true;
+    
+            const meetsLocation = location
+                ? job.location.toLowerCase().includes(location.toLowerCase())
+                : true;
+    
+            const meetsWorkFromHome = workFromHome
+                ? job.location.toLowerCase() === 'work from home'
+                : true;
+    
+            const meetsPartTime = partTime
+                ? job.type?.toLowerCase() === 'part-time'
+                : true;
+    
+            const meetsSalary = salary
+                ? parseInt(job.salary?.split('-')[0]) <= salary * 10000
+                : true;
+    
+            const meetsExperience = experience
+                ? job.experience.toLowerCase().includes(experience.toLowerCase())
+                : true;
+    
+            return (
+                meetsProfile &&
+                meetsLocation &&
+                meetsWorkFromHome &&
+                meetsPartTime &&
+                meetsSalary &&
+                meetsExperience
+            );
         });
+    
         setFilteredJobs(filtered);
     };
-
+    
+    
     return (
-        <div className="container mx-auto border border-gray-600 rounded-lg p-6 mb-4 h-[700px] flex">
+        <div className="container mx-auto  rounded-lg p-6 mb-4  flex mt-20 bg-white">
             <div className="w-1/4 border-r border-gray-300 pr-4">
                 <h2 className="text-xl font-semibold mb-4">Filters</h2>
                 <div className="mb-4">
                     <label className="block font-medium mb-1">Profile</label>
-                    <input
+                    <input 
                         type="text"
                         placeholder="e.g. Marketing"
                         value={profile}
                         onChange={(e) => setProfile(e.target.value)}
-                        className="w-full border border-gray-300 rounded px-2 py-1"
+                        className="w-full border border-gray-300 rounded px-2 py-1 h-14"
                     />
                 </div>
 
@@ -72,7 +105,7 @@ const LandingPage = () => {
                         placeholder="e.g. Delhi"
                         value={location}
                         onChange={(e) => setLocation(e.target.value)}
-                        className="w-full border border-gray-300 rounded px-2 py-1"
+                        className="w-full border border-gray-300 rounded px-2 py-1 h-14"
                     />
                 </div>
 
@@ -120,7 +153,7 @@ const LandingPage = () => {
                     <select
                         value={experience}
                         onChange={(e) => setExperience(e.target.value)}
-                        className="w-full border border-gray-300 rounded px-2 py-1"
+                        className="w-full border border-gray-300 rounded px-2 py-1 h-14"
                     >
                         <option value="">Select years of experience</option>
                         <option value="0-1">0-1 years</option>
@@ -139,21 +172,21 @@ const LandingPage = () => {
             </div>
 
             <div className="w-3/4 pl-4">
-                <h2 className="text-xl font-semibold mb-4">Job Listings</h2>
-                <div className="grid grid-cols-3 gap-4">
+                <h2 className="text-xl font-semibold mb-4  pl-8" >Job Listings</h2>
+                <div className="grid grid-cols-3 gap-4 ml-10">
                     {(filteredJobs.length > 0 ? filteredJobs : jobs).map((job) => (
-                        <Link to={`/job/${job.id}`} key={job.id}>
-                            <div className="border border-gray-300 p-4 rounded-lg shadow-md">
-                                <h3 className="text-lg font-semibold">{job.title}</h3>
-                                <p className="text-gray-600">{job.company}</p>
-                                <p className="text-gray-600">{job.location}</p>
-                                <p className="text-gray-600">{job.experience}</p>
-                                <p className="text-gray-600">{job.salary}</p>
-                                <p className="text-gray-600">{job.posted}</p>
-                                <p className="text-green-600 font-semibold">{job.type}</p>
-                            </div>
-                        </Link>
-                    ))}
+                     <Link to={`/job/${job._id}`} key={job._id}>
+                     <div className="border border-gray-300 p-4 rounded-lg shadow-md w-80 h-96">
+                         <h3 className="text-lg font-semibold">{job.title}</h3>
+                         <p className="text-gray-600">{job.company}</p>
+                         <p className="text-gray-600">{job.location}</p>
+                         <p className="text-gray-600">{job.experience}</p>
+                         <p className="text-gray-600">{job.salary}</p>
+                         <p className="text-gray-600">{job.posted}</p>
+                         <p className="text-green-600 font-semibold">{job.type}</p>
+                     </div>
+                 </Link>
+             ))}
                 </div>
             </div>
         </div>

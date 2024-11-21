@@ -1,188 +1,153 @@
-import React, { useState } from 'react';
-import { useParams } from 'react-router-dom';
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 
-const JobDetailPage = () => {
+const JobDetails = () => {
     const { jobId } = useParams();
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [resume, setResume] = useState(null);
-    const [details, setDetails] = useState({ name: '', email: '', answer: '' });
+    const [job, setJob] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+    const [resume, setResume] = useState(null);  
+    const [details, setDetails] = useState('');  
+    const [hireReason, setHireReason] = useState(''); 
+    const [isModalOpen, setIsModalOpen] = useState(false); 
 
-    const jobs = [
-        {
-            id: 1,
-            title: 'Python Developer',
-            company: 'Dream Marvel Startups Private Limited',
-            location: 'Work from home',
-            experience: '0 years',
-            salary: '$ 20,000 - 40,000',
-            posted: 'Just now',
-            type: 'Fresher Job',
-        },
-        {
-            id: 2,
-            title: 'Frontend Developer',
-            company: 'Tech Innovators Ltd.',
-            location: 'Delhi',
-            experience: '1-2 years',
-            salary: '$ 30,000 - 50,000',
-            posted: '1 day ago',
-            type: 'Full-time',
-        },
-        {
-            id: 3,
-            title: 'Backend Developer',
-            company: 'Startup Hub Solutions',
-            location: 'Mumbai',
-            experience: '1 year',
-            salary: '$ 25,000 - 45,000',
-            posted: '2 days ago',
-            type: 'Full-time',
-        },
-        {   id: 4,
-            title: 'React Developer',
-            company: 'Bright Tech',
-            location: 'Work from home',
-            experience: '0-1 year',
-            salary: '$ 22,000 - 42,000',
-            posted: 'Just now',
-            type: 'Fresher Job',
-        },
-        {   id: 5,
-            title: 'UI/UX Designer',
-            company: 'Creative Labs',
-            location: 'Bangalore',
-            experience: '2-3 years',
-            salary: '$ 35,000 - 55,000',
-            posted: '3 days ago',
-            type: 'Full-time',
-        },
-        {   id: 6,
-            title: 'DevOps Engineer',
-            company: 'OpsPro Solutions',
-            location: 'Hyderabad',
-            experience: '3-5 years',
-            salary: '$ 40,000 - 60,000',
-            posted: '4 days ago',
-            type: 'Full-time',
-        },
+    useEffect(() => {
+        const fetchJobDetails = async () => {
+            try {
+                setLoading(true);
+                const response = await fetch(`https://job-portal-project-theta.vercel.app/api/employer/jobs/${jobId}`);
 
-    ];
+                if (!response.ok) {
+                    throw new Error(`Failed to fetch job details. Status code: ${response.status}`);
+                }
 
-    const job = jobs.find((job) => job.id === parseInt(jobId));
+                const data = await response.json();
+                setJob(data);
+            } catch (error) {
+                console.error("Error fetching job details:", error.message);
+                setError("Could not load job details. Please try again later.");
+            } finally {
+                setLoading(false);
+            }
+        };
 
-    const handleApplyClick = () => {
+        fetchJobDetails();
+    }, [jobId]);
+
+    const handleResumeChange = (event) => {
+        setResume(event.target.files[0]);
+    };
+
+    const handleDetailsChange = (event) => {
+        setDetails(event.target.value);
+    };
+
+    const handleHireReasonChange = (event) => {
+        setHireReason(event.target.value);
+    };
+
+    const handleSubmit = (event) => {
+        event.preventDefault();
+
+       
+        const formData = new FormData();
+        formData.append('resume', resume);
+        formData.append('details', details);
+        formData.append('hireReason', hireReason);
+
+        
+        console.log('Form Data:', formData);
+
+        alert('Application submitted successfully!');
+        setIsModalOpen(false); 
+    };
+
+    const openModal = () => {
         setIsModalOpen(true);
     };
 
-    const handleCloseModal = () => {
+    const closeModal = () => {
         setIsModalOpen(false);
     };
 
-    const handleInputChange = (e) => {
-        setDetails({
-            ...details,
-            [e.target.name]: e.target.value,
-        });
-    };
+    if (loading) {
+        return <p className="text-blue-500 text-center mt-8">Loading job details...</p>;
+    }
 
-    const handleFileChange = (e) => {
-        setResume(e.target.files[0]);
-    };
+    if (error) {
+        return <p className="text-red-500 text-center mt-8">{error}</p>;
+    }
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        console.log('Submitted Application:', details, resume);
-        setIsModalOpen(false);
-        alert('Application submitted successfully!');
-    };
+    if (!job) {
+        return <p className="text-gray-500 text-center mt-8">No job details available.</p>;
+    }
 
     return (
-        <div className="md:container md:mx-auto flex justify-center mt-10 mb-10">
-            {job ? (
-               <div className="border border-gray-300 p-4 rounded-lg shadow-md w-[700px] text-center">
-                    <h1 className="text-2xl font-semibold">{job.title}</h1>
-                    <p 	className="text-align: center;">{job.company}</p>
-                    <p>{job.location}</p>
-                    <p>{job.experience}</p>
-                    <p>{job.salary}</p>
-                    <p>{job.posted}</p>
-                    <p className="text-green-600 font-semibold">{job.type}</p>
-                    <p className="mt-4">{job.description}</p>
-                    <button
-                        onClick={handleApplyClick}
-                        className="mt-4 bg-blue-500 text-white px-4 py-2 rounded"
-                    >
-                        Apply Now
-                    </button>
-                </div>
-            ) : (
-                <p>Job not found.</p>
-            )}
+        <div className="mx-auto py-8 px-4 w-[700px] h-[400px] mt-[120px]">
+            <div className="bg-white rounded-lg shadow-lg p-6 h-full overflow-auto">
+                <h1 className="text-3xl font-bold text-gray-800 mb-4">{job.title}</h1>
+                <h2 className="text-xl text-gray-600 mb-2">Employer: {job.employerId?.name || "N/A"}</h2>
+                <p className="text-gray-700 mb-4">{job.description}</p>
+                <p className="text-lg font-semibold text-green-600">Salary: {job.salary || "Not specified"}</p>
+                
+                <button 
+                    onClick={openModal} 
+                    className="mt-4 py-2 px-4 bg-blue-500 text-white font-bold rounded-md"
+                >
+                    Apply Now
+                </button>
+            </div>
 
             {isModalOpen && (
-                <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-                    <div className="bg-white p-6 rounded-lg shadow-lg w-1/2">
-                        <h2 className="text-xl font-semibold mb-4">Apply for {job.title}</h2>
-                        <form onSubmit={handleSubmit}>
+                <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center">
+                    <div className="bg-white p-6 rounded-lg shadow-lg w-[500px]">
+                        <h2 className="text-2xl font-bold mb-4">Job Application</h2>
+                        <form onSubmit={handleSubmit} className="space-y-4">
                             <div className="mb-4">
-                                <label className="block font-medium mb-1">Name</label>
-                                <input
-                                    type="text"
-                                    name="name"
-                                    value={details.name}
-                                    onChange={handleInputChange}
-                                    className="w-full border border-gray-300 rounded px-2 py-1"
-                                    required
+                                <label htmlFor="resume" className="block text-gray-700">Upload Your Resume:</label>
+                                <input 
+                                    type="file" 
+                                    id="resume" 
+                                    onChange={handleResumeChange} 
+                                    className="w-full mt-2 p-2 border rounded-md"
                                 />
                             </div>
 
                             <div className="mb-4">
-                                <label className="block font-medium mb-1">Email</label>
-                                <input
-                                    type="email"
-                                    name="email"
-                                    value={details.email}
-                                    onChange={handleInputChange}
-                                    className="w-full border border-gray-300 rounded px-2 py-1"
-                                    required
-                                />
-                            </div>
-
-                            <div className="mb-4">
-                                <label className="block font-medium mb-1">Upload Resume</label>
-                                <input
-                                    type="file"
-                                    onChange={handleFileChange}
-                                    className="w-full border border-gray-300 rounded px-2 py-1"
-                                    required
-                                />
-                            </div>
-
-                            <div className="mb-4">
-                                <label className="block font-medium mb-1">Why should we hire you?</label>
-                                <textarea
-                                    name="answer"
-                                    value={details.answer}
-                                    onChange={handleInputChange}
-                                    className="w-full border border-gray-300 rounded px-2 py-1"
+                                <label htmlFor="details" className="block text-gray-700">Additional Details (Cover Letter, etc.):</label>
+                                <textarea 
+                                    id="details"
+                                    value={details}
+                                    onChange={handleDetailsChange}
+                                    className="w-full mt-2 p-2 border rounded-md"
                                     rows="4"
-                                    required
-                                />
+                                ></textarea>
                             </div>
 
-                            <div className="flex justify-end">
-                                <button
-                                    type="button"
-                                    onClick={handleCloseModal}
-                                    className="text-red-500 mr-4"
-                                >
-                                    Cancel
-                                </button>
-                                <button
-                                    type="submit"
-                                    className="bg-blue-500 text-white px-4 py-2 rounded"
+                            <div className="mb-4">
+                                <label htmlFor="hireReason" className="block text-gray-700">Why should we hire you?</label>
+                                <textarea 
+                                    id="hireReason"
+                                    value={hireReason}
+                                    onChange={handleHireReasonChange}
+                                    className="w-full mt-2 p-2 border rounded-md"
+                                    rows="4"
+                                ></textarea>
+                            </div>
+
+                            <div className="flex justify-between">
+                                <button 
+                                    type="submit" 
+                                    className="py-2 px-4 bg-blue-500 text-white font-bold rounded-md"
                                 >
                                     Submit Application
+                                </button>
+                                <button 
+                                    type="button" 
+                                    onClick={closeModal} 
+                                    className="py-2 px-4 bg-gray-500 text-white font-bold rounded-md"
+                                >
+                                    Cancel
                                 </button>
                             </div>
                         </form>
@@ -193,4 +158,4 @@ const JobDetailPage = () => {
     );
 };
 
-export default JobDetailPage;
+export default JobDetails;
