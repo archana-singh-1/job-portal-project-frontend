@@ -13,7 +13,7 @@ const Logout = ({ setIsLoggedIn }) => {
                 return; 
             }
 
-            const response = await axios.post('http://localhost:4000/user/logout', {}, {
+            const response = await axios.post('https://job-portal-project-theta.vercel.app/user/logout', {}, {
                 headers: {
                     Authorization: `Bearer ${token}` 
                 }

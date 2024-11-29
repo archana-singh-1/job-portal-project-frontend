@@ -16,7 +16,7 @@ const Signup = () => {
 
 
         try {
-            const response = await axios.post('http://localhost:4000/user/signup', {
+            const response = await axios.post('https://job-portal-project-theta.vercel.app/user/signup', {
                 name,
                 email,
                 password,
