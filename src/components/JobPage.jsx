@@ -104,11 +104,10 @@ const JobsPage = () => {
     const params = new URLSearchParams(location.search);
     const categoryParam = params.get('category');
     setCategory(categoryParam);
-
+  
     const fetchJobs = async () => {
       setLoading(true);
       setError('');
-      
       try {
         const response = await fetch(
           `https://job-portal-project-theta.vercel.app/api/employer/jobs?category=${categoryParam}`
@@ -117,18 +116,20 @@ const JobsPage = () => {
           throw new Error('Failed to fetch jobs');
         }
         const data = await response.json();
-        setJobs(data.jobs);  
+        console.log('Fetched Jobs:', data.jobs); // Debugging log
+        setJobs(data.jobs);
       } catch (err) {
         setError('Error fetching jobs: ' + err.message);
       } finally {
         setLoading(false);
       }
     };
-
+  
     if (categoryParam) {
       fetchJobs();
     }
   }, [location.search]);
+  
 
   return (
     <div className="container mx-auto p-4">
