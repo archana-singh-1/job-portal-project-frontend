@@ -84,7 +84,8 @@ const LandingPage = () => {
     
     
     return (
-        <div className="container mx-auto  rounded-lg p-6 mb-4  flex mt-20 bg-white">
+        <div className="container mx-auto  rounded-lg p-6 mb-4  flex mt-20 "
+        style={{ backgroundColor: '#FFFFFF' }}>
             <div className="w-1/4 border-r border-gray-300 pr-4">
                 <h2 className="text-xl font-semibold mb-4">Filters</h2>
                 <div className="mb-4">
@@ -179,7 +180,7 @@ const LandingPage = () => {
                      <div className="border border-gray-300 p-4 rounded-lg shadow-md w-80 h-96">
                          <h3 className="text-lg font-semibold">{job.title}</h3>
                          <p className="text-gray-600">{job.company}</p>
-                         <p className="text-gray-600">{job.location}</p>
+                         <p className="text-gray-600">{job.description}</p>
                          <p className="text-gray-600">{job.experience}</p>
                          <p className="text-gray-600">{job.salary}</p>
                          <p className="text-gray-600">{job.posted}</p>

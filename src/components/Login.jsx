@@ -13,28 +13,33 @@ const Login = ({ setIsLoggedIn }) => {
     const navigate = useNavigate();
 
     const handleLogin = async (e) => {
-                e.preventDefault();
-        
-                try {
-                    const response = await axios.post('https://job-portal-project-theta.vercel.app/user/login', {
-                        email,
-                        password
-                    });
-        
-                    const { token, user } = response.data;
-                    if (token && user) {
-                        localStorage.setItem('token', token);
-                        localStorage.setItem('user', JSON.stringify(user));
-                        setIsLoggedIn(true); // Update the login state
-                        alert('Login successful!');
-                        navigate('/'); // Navigate to the home page or landing page
-                    }
-                } catch (error) {
-                    setError(error.response?.data?.message || 'Login failed. Please try again.');
-                    setMessage(null);
-                    alert('Login failed. Please try again.');
+        e.preventDefault();
+    
+        try {
+            const response = await axios.post('https://job-portal-project-theta.vercel.app/user/login', {
+                email,
+                password
+            });
+    
+            const { token, user } = response.data;
+            if (token && user) {
+                localStorage.setItem('token', token);
+                localStorage.setItem('user', JSON.stringify(user));
+                setIsLoggedIn(true); // Update the login state
+                alert('Login successful!');
+    
+                if (user.role === 'Employer') {
+                    navigate('/job-posting'); // Navigate to Job Posting page for Employers
+                } else {
+                    navigate('/'); // Navigate to Home page for Job Seekers
                 }
-            };
+            }
+        } catch (error) {
+            setError(error.response?.data?.message || 'Login failed. Please try again.');
+            alert('Login failed. Please try again.');
+        }
+    };
+    
 
     return (
         <div className="container mx-auto mt-[80px]">

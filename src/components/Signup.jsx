@@ -1,20 +1,19 @@
 import axios from 'axios';
-import React from 'react';
-import { useState } from 'react';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+
 const Signup = () => {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [role, setRole] = useState(''); 
-
+    const [role, setRole] = useState('');
     const [message, setMessage] = useState(null);
     const [error, setError] = useState(null);
 
+    const navigate = useNavigate(); // Hook for navigation
+
     const handleSignup = async (e) => {
-        e.preventDefault(); 
-        console.log({ name, email, password, role }); 
-
-
+        e.preventDefault();
         try {
             const response = await axios.post('https://job-portal-project-theta.vercel.app/user/signup', {
                 name,
@@ -22,24 +21,28 @@ const Signup = () => {
                 password,
                 role
             });
-            setMessage(response.data.message); 
-            setError(null); 
+            setMessage(response.data.message);
+            setError(null);
+
             alert('Signup successful!');
 
-
+            if (role === 'Employer') {
+                navigate('/login'); // Redirect to login page for Employers
+            } else {
+                alert('You can now log in as a Job Seeker!');
+            }
         } catch (error) {
-            console.log(error);  
-
             setError(error.response?.data?.message || 'An error occurred. Please try again.');
-            setMessage(null); 
+            setMessage(null);
             alert('Signup failed. Please try again.');
         }
     };
+
     return (
         <div className="container mx-auto mt-[80px]">
             <h1 className="text-2xl text-center mb-7 font-bold">Signup</h1>
 
-            <form onSubmit={handleSignup} className="w-full max-w-lg mx-auto bg-white p-8 rounded-lg shadow-2xl shadow-gray-500/50 h-[600px]"> 
+            <form onSubmit={handleSignup} className="w-full max-w-lg mx-auto bg-white p-8 rounded-lg shadow-2xl shadow-gray-500/50 h-[600px]">
                 <div className="mb-4">
                     <label className="block text-gray-700 font-bold mb-2">Name</label>
                     <input
@@ -76,7 +79,6 @@ const Signup = () => {
                     />
                 </div>
 
-
                 <div className="mb-4">
                     <label className="block text-gray-700 font-bold mb-2">Role</label>
                     <select
@@ -86,11 +88,10 @@ const Signup = () => {
                         required
                     >
                         <option value="">Select Role</option>
-                        <option value="Job Seeker">job_seeker</option>
-                        <option value="Employer">employer</option>
+                        <option value="Job Seeker">Job Seeker</option>
+                        <option value="Employer">Employer</option>
                     </select>
                 </div>
-
 
                 <button
                     type="submit"
@@ -104,9 +105,3 @@ const Signup = () => {
 };
 
 export default Signup;
-
-
-
-
-
-
