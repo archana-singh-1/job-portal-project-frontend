@@ -10,7 +10,7 @@ import Logout from "./components/Logout.jsx";
 import JobDetails from './components/JobDetailsPage.jsx';
 import JobsPage from './components/JobPage.jsx';
 import SearchResultsPage from './components/SearchResultPage.jsx';
-
+import JobPosting from './components/Jobposting.jsx';
 
 function App() {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -33,6 +33,7 @@ function App() {
                 <Route path="/job/:jobId" element={<JobDetails />} />
                 <Route path="/jobpage" element={<JobsPage />} />
                 <Route path="*" element={<p>Page not found</p>} />
+                <Route path="/job-posting" element={<JobPosting />} />
               
             </Routes>
             <Footer />
