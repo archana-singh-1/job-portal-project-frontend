@@ -43,7 +43,9 @@ const Navbar = ({ isLoggedIn, setIsLoggedIn }) => {
   };
 
   return (
-    <div className="shadow-md bg-gray-400">
+    <div className="shadow-md"
+    style={{background:"#1976D2"}}
+    >
       <div className="flex items-center justify-between mx-auto max-w-6xl h-20 px-4">
         <div className="flex-1 flex items-center justify-center">
           <input
@@ -56,7 +58,7 @@ const Navbar = ({ isLoggedIn, setIsLoggedIn }) => {
           />
           <button
             onClick={handleSearch}
-            className="bg-[#483D8B] text-white px-4 py-2 rounded-r-lg transition duration-300"
+            className="bg-[#4227ec] text-white px-4 py-2 rounded-r-lg transition duration-300"
           >
             Search
           </button>
