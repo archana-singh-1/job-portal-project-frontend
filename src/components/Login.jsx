@@ -16,7 +16,7 @@ const Login = ({ setIsLoggedIn }) => {
         e.preventDefault();
     
         try {
-            const response = await axios.post('https://job-portal-project-theta.vercel.app/user/login', {
+            const response = await axios.post('http://localhost:4000/user/login', {
                 email,
                 password
             });
