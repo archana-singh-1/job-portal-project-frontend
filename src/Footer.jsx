@@ -6,7 +6,7 @@ const Footer = () => {
       <div className="container mx-auto px-4">
         <div className="flex flex-wrap justify-between">
           
-          <div className="w-full md:w-1/4 mb-4">
+          <div className="w-full md:w-1/4 mb-4 leading-relaxed" >
             <h5 className="text-lg font-bold mb-2">Internships by Places</h5>
             <ul>
               <li><a href="/internships/india" className="hover:underline">Internship in India</a></li>
