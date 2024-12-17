@@ -10,7 +10,7 @@ const Signup = () => {
     const [message, setMessage] = useState(null);
     const [error, setError] = useState(null);
 
-    const navigate = useNavigate(); // Hook for navigation
+    const navigate = useNavigate(); 
 
     const handleSignup = async (e) => {
         e.preventDefault();

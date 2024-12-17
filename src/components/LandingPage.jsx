@@ -17,7 +17,7 @@ const LandingPage = () => {
             try {
                 const response = await fetch('https://job-portal-project-theta.vercel.app/api/employer/jobs');
                 const data = await response.json();
-                const limitedData = data.slice(0, 12);  
+                const limitedData = data.slice(6, 12);  
                 setJobs(limitedData);  
                 setFilteredJobs(limitedData);  
             } catch (error) {
@@ -86,10 +86,10 @@ const LandingPage = () => {
     return (
         <div className="container mx-auto  rounded-lg p-6 mb-4  flex mt-20 "
         style={{ backgroundColor: '#FFFFFF' }}>
-            <div className="w-1/4 border-r border-gray-300 pr-4">
-                <h2 className="text-xl font-semibold mb-4">Filters</h2>
+            <div className="w-1/4 border-r border-gray-300 pr-4 ml-16">
+                <h2 className="text-xl font-semibold mb-4  not-italic decoration-slate-500 leading-8">Filters</h2>
                 <div className="mb-4">
-                    <label className="block font-medium mb-1">Profile</label>
+                    <label className="block font-medium mb-1 text-xl not-italic  decoration-slate-500 leading-8">Profile</label>
                     <input 
                         type="text"
                         placeholder="e.g. Marketing"
@@ -100,7 +100,7 @@ const LandingPage = () => {
                 </div>
 
                 <div className="mb-4">
-                    <label className="block font-medium mb-1">Location</label>
+                    <label className="block font-medium mb-1 text-xl not-italic  decoration-slate-500 leading-8">Location</label>
                     <input
                         type="text"
                         placeholder="e.g. Delhi"
@@ -111,7 +111,7 @@ const LandingPage = () => {
                 </div>
 
                 <div className="mb-4">
-                    <label className="block font-medium mb-1">Work from home</label>
+                    <label className="block font-medium mb-1 text-xl not-italic  decoration-slate-500 leading-8">Work from home</label>
                     <input
                         type="checkbox"
                         checked={workFromHome}
@@ -122,7 +122,7 @@ const LandingPage = () => {
                 </div>
 
                 <div className="mb-4">
-                    <label className="block font-medium mb-1">Part-time</label>
+                    <label className="block font-medium mb-1 text-xl not-italic  decoration-slate-500 leading-8">Part-time</label>
                     <input
                         type="checkbox"
                         checked={partTime}
@@ -133,7 +133,7 @@ const LandingPage = () => {
                 </div>
 
                 <div className="mb-4">
-                    <label className="block font-medium mb-1">Annual salary (in lakhs)</label>
+                    <label className="block font-medium mb-1 text-xl not-italic  decoration-slate-500 leading-8">Annual salary (in lakhs)</label>
                     <input
                         type="range"
                         min="0"
@@ -150,7 +150,7 @@ const LandingPage = () => {
                 </div>
 
                 <div className="mb-4">
-                    <label className="block font-medium mb-1">Years of experience</label>
+                    <label className="block  mb-1 text-lg not-italic font-medium decoration-slate-500 leading-8">Years of experience</label>
                     <select
                         value={experience}
                         onChange={(e) => setExperience(e.target.value)}
@@ -172,19 +172,18 @@ const LandingPage = () => {
                 </div>
             </div>
 
-            <div className="w-3/4 pl-4">
-                <h2 className="text-xl font-semibold mb-4  pl-8" >Job Listings</h2>
-                <div className="grid grid-cols-3 gap-4 ml-10">
+            <div className="w-full pl-4 ">
+                <h2 className="text-xl font-semibold mb-4  pl-8  not-italic decoration-slate-500 leading-8" >Job Listings</h2>
+                <div className="grid grid-cols-2 gap-9 ml-10">
                     {(filteredJobs.length > 0 ? filteredJobs : jobs).map((job) => (
                      <Link to={`/job/${job._id}`} key={job._id}>
-                     <div className="border border-gray-300 p-4 rounded-lg shadow-md w-80 h-96">
-                         <h3 className="text-lg font-semibold">{job.title}</h3>
-                         <p className="text-gray-600">{job.company}</p>
-                         <p className="text-gray-600">{job.description}</p>
-                         <p className="text-gray-600">{job.experience}</p>
-                         <p className="text-gray-600">{job.salary}</p>
-                         <p className="text-gray-600">{job.posted}</p>
-                         <p className="text-green-600 font-semibold">{job.type}</p>
+                     <div className="border border-gray-300 p-4 rounded-lg shadow-md h-60">
+                         <h3 className="text-lg font-semibold pl-3  not-italic  decoration-slate-500">{`${job.title}`}</h3>
+                         <p className="text-gray-600 pl-3 text-lg not-italic font-medium decoration-slate-500 leading-8">{job.description}</p>
+                         <p className="text-gray-600 pl-3 text-lg not-italic font-medium decoration-slate-500 leading-8">{job.location}</p>
+                         <p className="text-gray-600 pl-3 text-lg not-italic font-medium decoration-slate-500 leading-8">{job.salary}</p>
+                         <p className="text-gray-600 pl-3 text-lg not-italic font-medium decoration-slate-500 leading-8">{job.jobType}</p>
+                         <p className="text-gray-600 pl-3 text-lg not-italic font-medium decoration-slate-500 leading-8">{job.type}</p>
                      </div>
                  </Link>
              ))}

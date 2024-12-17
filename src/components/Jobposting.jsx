@@ -11,39 +11,43 @@ const JobPosting = () => {
 
     const handleJobPost = async (e) => {
         e.preventDefault();
-
+    
         try {
-            const token = localStorage.getItem('token'); 
+            const token = localStorage.getItem('token');
             if (!token) {
                 alert('Please log in to post a job.');
                 return;
             }
-
+    
+            const jobData = { jobTitle, salary, location, description };
+            console.log('Sending job data:', jobData);
+    
             const response = await axios.post(
                 'https://job-portal-project-theta.vercel.app/api/employer/jobs',
-                { jobTitle, salary, location, description },
+                jobData,
                 {
                     headers: {
-                        Authorization: `Bearer ${token}`, 
+                        Authorization: `Bearer ${token}`,
                     },
                 }
             );
-
+    
+            console.log('API Response:', response.data);
             setMessage('Job posted successfully!');
             setError(null);
-          
             setJobTitle('');
             setSalary('');
             setLocation('');
             setDescription('');
         } catch (error) {
+            console.error('Error posting job:', error.response || error);
             setError(
                 error.response?.data?.message || 'Failed to post job. Please try again.'
             );
             setMessage(null);
         }
     };
-
+    
     return (
         <div className="container mx-auto mt-[80px]">
             <h1 className="text-2xl text-center mb-7 font-bold">Post a Job</h1>
