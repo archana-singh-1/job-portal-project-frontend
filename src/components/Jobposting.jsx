@@ -130,7 +130,7 @@
 
 
 
-import React, { useState } from 'react';
+import  { useState } from 'react';
 import axios from 'axios';
 
 const JobPosting = () => {
@@ -156,7 +156,7 @@ const JobPosting = () => {
             const employerId = "67569cfbfa35792d915b57f7"; // Replace with the actual employerId or fetch it dynamically
 
             const response = await axios.post(
-                'http://localhost:4000/api/employer/jobs',
+                'https://job-portal-project-theta.vercel.app/api/employer/jobs',
                 {
                     title,
                     description,
@@ -172,6 +172,7 @@ const JobPosting = () => {
                     },
                 }
             );
+            console.log('Server response:', response.data);
 
             setMessage('Job posted successfully!');
             setError(null);

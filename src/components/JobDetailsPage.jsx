@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import  { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
 const JobDetails = () => {
@@ -28,7 +28,7 @@ const JobDetails = () => {
                 setError("Could not load job details. Please try again later.");
             } finally {
                 setLoading(false);
-            }
+            } 
         };
 
         fetchJobDetails();
