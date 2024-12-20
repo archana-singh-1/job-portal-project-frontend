@@ -326,7 +326,7 @@ const JobPosting = () => {
             const skillsArray = skills.split(',').map(skill => skill.trim());
 
             const response = await axios.post(
-                'http://localhost:4000/api/employer/jobs',
+                'https://job-portal-project-theta.vercel.app/api/employer/jobs',
                 { title, salary, location, description, jobType, skills: skillsArray },
                 {
                     headers: {
