@@ -1,53 +1,26 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const JobPosting = () => {
     const [jobTitle, setJobTitle] = useState('');
     const [salary, setSalary] = useState('');
     const [location, setLocation] = useState('');
     const [description, setDescription] = useState('');
-    const [message, setMessage] = useState(null);
-    const [error, setError] = useState(null);
+    const navigate = useNavigate();
 
-    const handleJobPost = async (e) => {
+    const handleJobPost = (e) => {
         e.preventDefault();
-    
-        try {
-            const token = localStorage.getItem('token');
-            if (!token) {
-                alert('Please log in to post a job.');
-                return;
-            }
-    
-            const jobData = { jobTitle, salary, location, description };
-            console.log('Sending job data:', jobData);
-    
-            const response = await axios.post(
-                'https://job-portal-project-theta.vercel.app/api/employer/jobs',
-                jobData,
-                {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                }
-            );
-    
-            console.log('API Response:', response.data);
-            setMessage('Job posted successfully!');
-            setError(null);
-            setJobTitle('');
-            setSalary('');
-            setLocation('');
-            setDescription('');
-        } catch (error) {
-            console.error('Error posting job:', error.response || error);
-            setError(
-                error.response?.data?.message || 'Failed to post job. Please try again.'
-            );
-            setMessage(null);
-        }
+
+        const jobData = {
+            jobTitle,
+            salary,
+            location,
+            description,
+        };
+
+        navigate('/employer-dashboard', { state: { jobData } });
     };
-    
+
     return (
         <div className="container mx-auto mt-[80px]">
             <h1 className="text-2xl text-center mb-7 font-bold">Post a Job</h1>
@@ -108,9 +81,6 @@ const JobPosting = () => {
                 >
                     Post Job
                 </button>
-
-                {message && <p className="text-green-500 mt-4">{message}</p>}
-                {error && <p className="text-red-500 mt-4">{error}</p>}
             </form>
         </div>
     );

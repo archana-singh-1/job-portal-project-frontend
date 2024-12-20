@@ -11,6 +11,7 @@ import JobDetails from './components/JobDetailsPage.jsx';
 import JobsPage from './components/JobPage.jsx';
 import SearchResultsPage from './components/SearchResultPage.jsx';
 import JobPosting from './components/Jobposting.jsx';
+import EmployerDashboard from './components/Employer.jsx';
 
 function App() {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -34,6 +35,7 @@ function App() {
                 <Route path="/jobpage" element={<JobsPage />} />
                 <Route path="*" element={<p>Page not found</p>} />
                 <Route path="/job-posting" element={<JobPosting />} />
+                <Route path="/employer-dashboard" element={<EmployerDashboard />} />
               
             </Routes>
             <Footer />
