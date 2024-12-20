@@ -27,7 +27,7 @@ const Signup = () => {
             alert('Signup successful!');
 
             if (role === 'Employer') {
-                navigate('/login'); // Redirect to login page for Employers
+                navigate('/login'); 
             } else {
                 alert('You can now log in as a Job Seeker!');
             }

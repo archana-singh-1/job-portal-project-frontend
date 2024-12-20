@@ -129,11 +129,11 @@ const LandingPage = () => {
                         onChange={(e) => setPartTime(e.target.checked)}
                         className="mr-2"
                     />
-                    <span>Part-time</span>
+                    <span className="block font-medium mb-1 text-xl not-italic  decoration-slate-500 leading-8">Part-time</span>
                 </div>
 
                 <div className="mb-4">
-                    <label className="block font-medium mb-1 text-xl not-italic  decoration-slate-500 leading-8">Annual salary (in lakhs)</label>
+                    <label className="block font-medium mb-1 text-xl not-italic  decoration-slate-500 leading-9">Annual salary (in lakhs)</label>
                     <input
                         type="range"
                         min="0"
@@ -150,13 +150,13 @@ const LandingPage = () => {
                 </div>
 
                 <div className="mb-4">
-                    <label className="block  mb-1 text-lg not-italic font-medium decoration-slate-500 leading-8">Years of experience</label>
+                    <label className="block  mb-1 text-lg not-italic font-medium decoration-slate-500 leading-10">Years of experience</label>
                     <select
                         value={experience}
                         onChange={(e) => setExperience(e.target.value)}
                         className="w-full border border-gray-300 rounded px-2 py-1 h-14"
                     >
-                        <option value="">Select years of experience</option>
+                        <option value="" className="block font-medium mb-1 text-xl not-italic  decoration-slate-500 leading-8">Select years of experience</option>
                         <option value="0-1">0-1 years</option>
                         <option value="1-3">1-3 years</option>
                         <option value="3-5">3-5 years</option>
@@ -165,10 +165,10 @@ const LandingPage = () => {
                 </div>
 
                 <div className="flex justify-between">
-                    <button onClick={clearFilters} className="text-red-500 hover:underline">
+                    <button onClick={clearFilters} className="text-red-500 hover:underline text-xl font-semibold mb-4  pl-8  not-italic leading-8 mt-9">
                         Clear all
                     </button>
-                    <button onClick={handleSearch} className="bg-[#483D8B] text-white px-4 py-2 rounded">Search</button>
+                    <button onClick={handleSearch} className="bg-[#483D8B] text-white px-4 py-2 rounded leading-10 mt-7">Search</button>
                 </div>
             </div>
 
@@ -184,6 +184,13 @@ const LandingPage = () => {
                          <p className="text-gray-600 pl-3 text-lg not-italic font-medium decoration-slate-500 leading-8">{job.salary}</p>
                          <p className="text-gray-600 pl-3 text-lg not-italic font-medium decoration-slate-500 leading-8">{job.jobType}</p>
                          <p className="text-gray-600 pl-3 text-lg not-italic font-medium decoration-slate-500 leading-8">{job.type}</p>
+                         <p className="text-gray-600 pl-3 text-lg not-italic font-medium decoration-slate-500 leading-8">
+                                {Array.isArray(job.skills)
+                                    ? job.skills.map(skill => skill.name).join(', ')
+                                    : 'No skills provided'}
+                         </p>
+
+
                      </div>
                  </Link>
              ))}
