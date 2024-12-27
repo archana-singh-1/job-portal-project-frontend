@@ -1,24 +1,36 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useJobs } from './JobContext.js';
 
 const JobPosting = () => {
     const [jobTitle, setJobTitle] = useState('');
     const [salary, setSalary] = useState('');
     const [location, setLocation] = useState('');
     const [description, setDescription] = useState('');
+    const { addJob } = useJobs();  // Get the addJob function
     const navigate = useNavigate();
 
     const handleJobPost = (e) => {
         e.preventDefault();
 
-        const jobData = {
+        const newJob = {
             jobTitle,
             salary,
             location,
             description,
         };
 
-        navigate('/employer-dashboard', { state: { jobData } });
+        // Add the new job to the global job list
+        addJob(newJob);
+
+        // Clear the input fields after posting
+        setJobTitle('');
+        setSalary('');
+        setLocation('');
+        setDescription('');
+
+        // Navigate to the employer dashboard
+        navigate('/employer-dashboard');
     };
 
     return (
