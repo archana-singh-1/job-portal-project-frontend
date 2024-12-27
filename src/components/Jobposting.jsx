@@ -7,7 +7,7 @@ const JobPosting = () => {
     const [salary, setSalary] = useState('');
     const [location, setLocation] = useState('');
     const [description, setDescription] = useState('');
-    const { addJob } = useJobs();  // Get the addJob function
+    const { addJob } = useJobs();  
     const navigate = useNavigate();
 
     const handleJobPost = (e) => {
@@ -20,16 +20,15 @@ const JobPosting = () => {
             description,
         };
 
-        // Add the new job to the global job list
+     
         addJob(newJob);
 
-        // Clear the input fields after posting
+       
         setJobTitle('');
         setSalary('');
         setLocation('');
         setDescription('');
 
-        // Navigate to the employer dashboard
         navigate('/employer-dashboard');
     };
 
